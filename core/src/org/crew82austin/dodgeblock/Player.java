@@ -1,5 +1,7 @@
 package org.crew82austin.dodgeblock;
 
+import java.awt.Color;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,16 +24,19 @@ public class Player implements Movable{
 	private float bX2;
 	private float bY1; //Player won't move below y1 or above y2
 	private float bY2;
+	private boolean local; //is the player playing on this machine
+	private Color color;
+	private int pType; //is the player player 1, 2, 3, etc.
+	private String pName;
+	
 	
 	//Called when the player is created, initializations
-	public Player(float x, float y, float size, float speed /*String image*/){ 
+	public Player(boolean isLocal, String name){ 
 		
 		rend = new ShapeRenderer(200);
-		posX = x;
-		posY = y;
-		pSize = size;
-		pSpeed = speed;
+		
 		rend.setAutoShapeType(false);
+		pName = name;
 		up = false;
 		down = false;
 		left = false;
@@ -40,10 +45,33 @@ public class Player implements Movable{
 		bX2 = Gdx.graphics.getWidth();
 		bY1 = 0; 
 		bY2 = Gdx.graphics.getHeight();
-		System.out.println("Created player at "+posX+","+posY+"\n size "+pSize+"\nspeed "+pSpeed+" \n"
+		local = isLocal;
+		System.out.println("Created player "+pName+" at "+posX+","+posY+"\n size "+pSize+"\nspeed "+pSpeed+" \n"
 				+ "boundries X "+bX1+"->"+bX2+", Y "+bY1+"->"+bY2);
 	}
 
+	public void setPlayer(float x, float y, float size, float speed){
+		posX = x;
+		posY = y;
+		pSize = size;
+		pSpeed = speed;
+		if(pType == 0){
+			color = Color.RED;
+		}
+		if(pType == 1){
+			color = Color.GREEN;
+		}
+	}
+	
+	public void setType(int type){
+		pType = type;
+		
+	}
+	
+	public int getType(){
+		return pType;
+	}
+	
 	@Override
 	public void update(float time) {
 		
@@ -94,6 +122,14 @@ public class Player implements Movable{
 		// TODO Auto-generated method stub
 		return posY;
 	}
+	
+	public float getSize(){
+		return pSize;
+	}
+	
+	public String getName(){
+		return pName;
+	}
 
 	@Override
 	public void draw() {
@@ -140,5 +176,9 @@ public class Player implements Movable{
 		bY1 = y1;
 		bY2 = y2;
 		return;
+	}
+	
+	public boolean isLocal(){
+		return local;
 	}
 }

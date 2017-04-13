@@ -1,11 +1,11 @@
 package org.crew82austin.dodgeblock;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Gdx;
 
-public class GameRunner implements InputProcessor {
+public class GameRunner {
 
 	
 	public enum State{
@@ -15,12 +15,17 @@ public class GameRunner implements InputProcessor {
 	private State status;
 	private ArrayList<Player> players;
 	private boolean isHosting;
+	private Random randomizer;
 	
-	public GameRunner(boolean hosting){
+	public GameRunner(boolean hosting, Player localPlayer){
 		status = State.PAUSED;
 		players = new ArrayList<Player>();
-		players.add(new Player(50f, 50f, 50f, 1000f));
+		players.add(localPlayer);
 		isHosting = hosting;
+		randomizer = new Random(System.currentTimeMillis());
+		if(hosting){
+			setPlayers();
+		}
 	}
 	
 	/*public GameRunner(State stat){
@@ -33,94 +38,61 @@ public class GameRunner implements InputProcessor {
 		return status;
 	}
 	
+	public void setState(State stat){
+		status = stat;
+		System.out.println("GameRunner set state to "+status);
+	}
+	
+	public void setPlayers(){
+		int[] types = new int[players.size()];
+		int rands = 0;
+		int next;
+		for(int c = 0; c < types.length; c++){
+			types[c] = -1;
+		}
+		for(int b = 0; b < types.length; b++){
+				next = randomizer.nextInt(players.size());
+				while(types[b] == next){
+					next = randomizer.nextInt(players.size());
+				}
+				types[b] = randomizer.nextInt(players.size());
+			rands++;
+			System.out.println(types[b]);
+		}
+		
+	
+		
+		
+		for(int a = 0; a < players.size(); a++){
+			if(players.get(a).getType() == 0){
+				players.get(a).setPlayer(50f, 50f, 40f, 1000f);
+			}
+			else if(players.get(a).getType() == 1){
+				players.get(a).setPlayer(500f, 500f, 10f, 50f);
+			}
+		}
+	}
 	public void update(float time){
 		
+		if(status == State.RUNNING)
 		for(int a = 0; a < players.size(); a++){
 			players.get(a).update(time);
 		}
-		for(int b = 0; b < players.size(); b++){
-			players.get(b).draw();
+		
+	}
+
+	public ArrayList<Player> getCurrentPlayers(){
+		return players;
+	}
+	
+	public void updateLocal(Player player){
+		for(int a = 0; a < players.size(); a++){
+			if(players.get(a).isLocal()){
+				players.set(a, player);
+			}
 		}
 	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-		
-		switch(keycode){
-			case Input.Keys.ESCAPE:
-				System.out.println("Escape Pressed");
-				System.exit(0);
-			case Input.Keys.A:
-				players.get(0).left(true);
-				break;
-			case Input.Keys.D:
-				players.get(0).right(true);
-				break;
-			case Input.Keys.W:
-				players.get(0).up(true);
-				break;
-			case Input.Keys.S:
-				players.get(0).down(true);
-				break;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		
-		switch(keycode){
-		case Input.Keys.A:
-			players.get(0).left(false);
-			break;
-		case Input.Keys.D:
-			players.get(0).right(false);
-			break;
-		case Input.Keys.W:
-			players.get(0).up(false);
-			break;
-		case Input.Keys.S:
-			players.get(0).down(false);
-			break;
-		}
-		
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
+	
 	
 }
