@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 
 public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
@@ -19,17 +20,26 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
     ArrayList<Player> players;
     private float deltaT;
     GameRunner runner;
-    Player localPlayer;
+    Player localPlayer1;
+    Player localPlayer2;
+    boolean TWOP = true;
     BitmapFont font;
+    ShapeRenderer rend;
     
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		deltaT = 0;
-		localPlayer = new Player(true, "Justin");
-		runner = new GameRunner(true, localPlayer);
+		localPlayer1 = new Player(true, "Justin");
+		if(!TWOP)
+			runner = new GameRunner(true, localPlayer1);
+		else if(TWOP){
+			localPlayer2 = new Player(true, "Bob");
+			runner = new GameRunner(true, localPlayer1, localPlayer2);
+		}
 		font = new BitmapFont();
 		batch = new SpriteBatch();
+		rend = new ShapeRenderer(200);
 		System.out.println("State is "+runner.getState());
 		Gdx.input.setInputProcessor(this);
 		players = new ArrayList<Player>();
@@ -52,10 +62,17 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
 			font.draw(batch, players.get(c).getName(), px, py);
 		}
 		batch.end();
+		
+		rend.setAutoShapeType(false);
+		rend.begin(ShapeType.Filled);
 		for(int b = 0; b < players.size(); b++){
-			players.get(b).draw();
+			players.get(b).draw(rend);
 		}
-		runner.updateLocal(localPlayer);
+		rend.end();
+		
+		runner.updateLocal(localPlayer1);
+		if(TWOP)
+			runner.updateLocal(localPlayer2);
 	}
 	
 	public void dispose(){
@@ -78,18 +95,35 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
 			case Input.Keys.ESCAPE:
 				System.out.println("Escape Pressed");
 				System.exit(0);
+			case Input.Keys.LEFT:
+				localPlayer1.left(true);
+				break;
+			case Input.Keys.RIGHT:
+				localPlayer1.right(true);
+				break;
+			case Input.Keys.UP:
+				localPlayer1.up(true);
+				break;
+			case Input.Keys.DOWN:
+				localPlayer1.down(true);
+				break;
+		}
+		if(TWOP){
+			switch(keycode){
 			case Input.Keys.A:
-				localPlayer.left(true);
+				localPlayer2.left(true);
 				break;
 			case Input.Keys.D:
-				localPlayer.right(true);
+				localPlayer2.right(true);
 				break;
 			case Input.Keys.W:
-				localPlayer.up(true);
+				localPlayer2.up(true);
 				break;
 			case Input.Keys.S:
-				localPlayer.down(true);
+				localPlayer2.down(true);
 				break;
+		
+		}
 		}
 		return false;
 	}
@@ -98,20 +132,37 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
 	public boolean keyUp(int keycode) {
 		
 		switch(keycode){
-		case Input.Keys.A:
-			localPlayer.left(false);
+		case Input.Keys.LEFT:
+			localPlayer1.left(false);
 			break;
-		case Input.Keys.D:
-			localPlayer.right(false);
+		case Input.Keys.RIGHT:
+			localPlayer1.right(false);
 			break;
-		case Input.Keys.W:
-			localPlayer.up(false);
+		case Input.Keys.UP:
+			localPlayer1.up(false);
 			break;
-		case Input.Keys.S:
-			localPlayer.down(false);
+		case Input.Keys.DOWN:
+			localPlayer1.down(false);
 			break;
+			
 		}
+		if(TWOP){
+			switch(keycode){
+			case Input.Keys.A:
+				localPlayer2.left(false);
+				break;
+			case Input.Keys.D:
+				localPlayer2.right(false);
+				break;
+			case Input.Keys.W:
+				localPlayer2.up(false);
+				break;
+			case Input.Keys.S:
+				localPlayer2.down(false);
+				break;
 		
+		}
+		}
 		return false;
 	}
 

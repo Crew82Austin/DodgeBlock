@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+
 public class Player implements Movable{
 
 	private float posX; //Current x position of the player
@@ -25,17 +26,17 @@ public class Player implements Movable{
 	private float bY1; //Player won't move below y1 or above y2
 	private float bY2;
 	private boolean local; //is the player playing on this machine
-	private Color color;
+	private  com.badlogic.gdx.graphics.Color color;
 	private int pType; //is the player player 1, 2, 3, etc.
 	private String pName;
+	private int ID;
 	
 	
 	//Called when the player is created, initializations
 	public Player(boolean isLocal, String name){ 
 		
-		rend = new ShapeRenderer(200);
 		
-		rend.setAutoShapeType(false);
+		
 		pName = name;
 		up = false;
 		down = false;
@@ -46,8 +47,8 @@ public class Player implements Movable{
 		bY1 = 0; 
 		bY2 = Gdx.graphics.getHeight();
 		local = isLocal;
-		System.out.println("Created player "+pName+" at "+posX+","+posY+"\n size "+pSize+"\nspeed "+pSpeed+" \n"
-				+ "boundries X "+bX1+"->"+bX2+", Y "+bY1+"->"+bY2);
+		ID = -1;
+		
 	}
 
 	public void setPlayer(float x, float y, float size, float speed){
@@ -56,11 +57,15 @@ public class Player implements Movable{
 		pSize = size;
 		pSpeed = speed;
 		if(pType == 0){
-			color = Color.RED;
+			color = color.RED;
 		}
 		if(pType == 1){
-			color = Color.GREEN;
+			color =  color.GREEN;
 		}
+		
+		System.out.println("Created player "+pName+" at "+posX+","+posY+"\n size "+pSize+"\nspeed "+pSpeed+" \n"
+				+ "boundries X "+bX1+"->"+bX2+", Y "+bY1+"->"+bY2);
+		
 	}
 	
 	public void setType(int type){
@@ -131,12 +136,16 @@ public class Player implements Movable{
 		return pName;
 	}
 
-	@Override
-	public void draw() {
-		rend.setColor(1f, 0f, 0f, 1f);
-		rend.begin(ShapeType.Filled);
+	public void setID(int id){
+		ID = id;
+	}
+
+	public int getID(){
+		return ID;
+	}
+	public void draw(ShapeRenderer rend) {
+		rend.setColor(color);
 		rend.rect(posX, posY, pSize, pSize);
-		rend.end();
 		
 		return;
 		
