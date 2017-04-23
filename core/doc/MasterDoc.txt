@@ -1,0 +1,14 @@
+When you work on this project, put what you did in here, with a date and preferably time.
+
+
+
+Power Ups:
+
+Random
+Change Size
+Change Speed
+Become Packman 
+Invinciblity
+Invisibility
+Teleport
+Elimination

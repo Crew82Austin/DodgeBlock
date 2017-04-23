@@ -94,9 +94,10 @@ public class GameRunner {
 	}
 	public void update(float time){
 		
-		if(status == State.RUNNING)
-		for(int a = 0; a < players.size(); a++){
-			players.get(a).update(time);
+		if(status == State.RUNNING){
+			for(int a = 0; a < players.size(); a++){
+				players.get(a).update(time);
+			}
 		}
 		
 	}

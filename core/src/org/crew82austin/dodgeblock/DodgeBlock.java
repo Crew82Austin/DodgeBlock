@@ -22,7 +22,7 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
     GameRunner runner;
     Player localPlayer1;
     Player localPlayer2;
-    boolean TWOP = true;
+    boolean TOWP = true;
     BitmapFont font;
     ShapeRenderer rend;
     
@@ -31,14 +31,13 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
 		batch = new SpriteBatch();
 		deltaT = 0;
 		localPlayer1 = new Player(true, "Justin");
-		if(!TWOP)
+		if(!TOWP)
 			runner = new GameRunner(true, localPlayer1);
-		else if(TWOP){
+		else if(TOWP){
 			localPlayer2 = new Player(true, "Bob");
 			runner = new GameRunner(true, localPlayer1, localPlayer2);
 		}
 		font = new BitmapFont();
-		batch = new SpriteBatch();
 		rend = new ShapeRenderer(200);
 		System.out.println("State is "+runner.getState());
 		Gdx.input.setInputProcessor(this);
@@ -71,7 +70,7 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
 		rend.end();
 		
 		runner.updateLocal(localPlayer1);
-		if(TWOP)
+		if(TOWP)
 			runner.updateLocal(localPlayer2);
 	}
 	
@@ -108,7 +107,7 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
 				localPlayer1.down(true);
 				break;
 		}
-		if(TWOP){
+		if(TOWP){
 			switch(keycode){
 			case Input.Keys.A:
 				localPlayer2.left(true);
@@ -146,7 +145,7 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
 			break;
 			
 		}
-		if(TWOP){
+		if(TOWP){
 			switch(keycode){
 			case Input.Keys.A:
 				localPlayer2.left(false);
