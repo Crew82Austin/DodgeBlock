@@ -74,8 +74,8 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
 			runner.updateLocal(localPlayer2);
 	}
 	
-	public void dispose(){
-		img.dispose();
+	public void dispose(){		
+
 		batch.dispose();
 	}
 	
@@ -93,7 +93,7 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
 		switch(keycode){
 			case Input.Keys.ESCAPE:
 				System.out.println("Escape Pressed");
-				System.exit(0);
+				Gdx.app.exit();
 			case Input.Keys.LEFT:
 				localPlayer1.left(true);
 				break;
