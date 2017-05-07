@@ -17,6 +17,7 @@ public class GameRunner {
 	private boolean isHosting;
 	private Random randomizer;
 	private Startup starter;
+	private Player winner;
 	
 	public GameRunner(boolean hosting, Player localPlayer){
 		starter = new Startup();
@@ -28,6 +29,7 @@ public class GameRunner {
 		players.add(localPlayer);
 		isHosting = hosting;
 		randomizer = new Random(System.currentTimeMillis());
+		winner = null;
 		if(hosting){
 			setPlayers();
 		}
@@ -50,12 +52,18 @@ public class GameRunner {
 		}
 	}
 	
-	/*public GameRunner(State stat){
-		players = new ArrayList<Player>();
-		players.add(new Player(50f, 50f, 50f, 1000f));
-		status = stat;
-	}*/
 	
+	public void newGame(){
+		if(isHosting){
+			winner = null;
+			for(int a = 0; a < players.size(); a++){
+				players.get(a).zeroAll();
+			}
+			setPlayers();
+			
+			status = State.RUNNING;
+		}
+	}
 	public State getState(){
 		return status;
 	}
@@ -101,14 +109,76 @@ public class GameRunner {
 	}
 	public void update(float time){
 		
+		winner = checkWin();
+		if(winner != null){
+			status = State.FINISHED;
+		}
+		
 		if(status == State.RUNNING){
 			for(int a = 0; a < players.size(); a++){
 				players.get(a).update(time);
 			}
 		}
 		
+		
+	}
+	
+	public Player getWinner(){
+		return winner;
+	}
+	
+	public Player checkWin(){
+		Player player0 = null;
+		Player player1 = null;
+		
+		for(int a = 0; a < players.size(); a++){
+			if(players.get(a).getType() == 0){
+				player0 = players.get(a);
+			}
+			else if(players.get(a).getType() == 1){
+				player1 = players.get(a);
+			}
+		}
+		
+		float dX = Math.abs(player0.getCenterX() - player1.getCenterX());
+		float dY = Math.abs(player0.getCenterY() - player1.getCenterY());
+		
+		float dSize = Math.abs(player0.getSize() + player1.getSize()) / 2;
+		
+		if(dX < dSize && dY < dSize){
+			return player0;
+		}
+		else{
+			return null;
+		}
 	}
 
+	public double getAngle(Object a, Object b){
+		double angle = 0;
+		if(a instanceof Player && b instanceof Player){
+			Player a1 = (Player)a;
+			Player b1 = (Player)b;
+			double dX = (double)(a1.getCenterX() - b1.getCenterX());
+			double dY = (double)(a1.getCenterY() - b1.getCenterY());
+			angle = Math.atan(dY/dX);
+		}
+		
+		return angle;
+	}
+	public double getDistance2(Object a, Object b){
+		double distance2 = 0;
+		
+		if(a instanceof Player && b instanceof Player){
+			Player a1 = (Player)a;
+			Player b1 = (Player)b;
+			double dX = (double)(a1.getCenterX() - b1.getCenterX());
+			double dY = (double)(a1.getCenterY() - b1.getCenterY());
+			distance2 = (dX * dX) + (dY * dY);
+		}
+		
+		return distance2;
+	}
+	
 	public ArrayList<Player> getCurrentPlayers(){
 		return players;
 	}

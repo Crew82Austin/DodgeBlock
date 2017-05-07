@@ -121,11 +121,19 @@ public class Player implements Movable{
 		// TODO Auto-generated method stub
 		return posX;
 	}
+	
+	public float getCenterX(){
+		return posX + (pSize / 2);
+	}
 
 	@Override
 	public float getY() {
 		// TODO Auto-generated method stub
 		return posY;
+	}
+	
+	public float getCenterY(){
+		return posY + (pSize / 2);
 	}
 	
 	public float getSize(){
@@ -149,6 +157,13 @@ public class Player implements Movable{
 		
 		return;
 		
+	}
+	
+	public void zeroAll(){
+		up = false;
+		down = false;
+		left = false;
+		right = false;
 	}
 
 	@Override

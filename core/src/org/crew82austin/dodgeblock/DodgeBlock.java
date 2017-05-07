@@ -60,6 +60,10 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
 			float py = players.get(c).getY() + players.get(c).getSize() + 2;
 			font.draw(batch, players.get(c).getName(), px, py);
 		}
+		if(runner.getWinner() != null && runner.getState() == GameRunner.State.FINISHED){
+			font.draw(batch, "The winner is "+runner.getWinner().getName(), 
+					5, Gdx.graphics.getHeight() - 20);
+		}
 		batch.end();
 		
 		rend.setAutoShapeType(false);
@@ -94,6 +98,9 @@ public class DodgeBlock extends ApplicationAdapter implements InputProcessor {
 			case Input.Keys.ESCAPE:
 				System.out.println("Escape Pressed");
 				Gdx.app.exit();
+			case Input.Keys.F2:
+				runner.newGame();
+				break;
 			case Input.Keys.LEFT:
 				localPlayer1.left(true);
 				break;

@@ -12,3 +12,10 @@ Invinciblity
 Invisibility
 Teleport
 Elimination
+
+
+5/7/2017
+Added getDistance2, getAngle, newGame, and checkWin to GameRunner
+Added win Condition (Cat and Mouse 2 Player)
+Added winner graphics to DodgeBlock
+Added centerX, centerY, and zeroAll to Player
