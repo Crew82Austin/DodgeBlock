@@ -13,9 +13,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.Screen;
 
+public class GameScreen implements Screen, InputProcessor{
+	
 
-public class DodgeBlock extends Game implements InputProcessor {
 	SpriteBatch batch;
 	Texture img;
     ArrayList<Player> players;
@@ -27,11 +29,10 @@ public class DodgeBlock extends Game implements InputProcessor {
     BitmapFont font;
     ShapeRenderer rend;
     MainMenu mainMenu;
-
+   
     
 	@Override
-	public void create () {
-		
+	public void show () {
 		batch = new SpriteBatch();
 		deltaT = 0;
 		localPlayer1 = new Player(true, "Justin");
@@ -44,17 +45,17 @@ public class DodgeBlock extends Game implements InputProcessor {
 		font = new BitmapFont();
 		rend = new ShapeRenderer(200);
 		System.out.println("State is "+runner.getState());
+		Gdx.input.setInputProcessor(this);
 		players = new ArrayList<Player>();
+		runner.setState(GameRunner.State.RUNNING);
 		
 		
-		mainMenu = new MainMenu(this);
-		setScreen(mainMenu);
 	}
 
 	@Override
-	public void render () {
-		super.render();
-		/*
+	public void render (float delta) {
+		
+		
 		deltaT = Gdx.graphics.getDeltaTime();
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -86,16 +87,13 @@ public class DodgeBlock extends Game implements InputProcessor {
 			runner.updateLocal(localPlayer2);
 	}
 	
-	public void dispose(){		
-
-		batch.dispose();
-	}
+	
 	
 	public void updatePlayers(float deltaT){
 		
 		for(int a = 0; a < players.size(); a++){
 			players.get(a).update(deltaT);
-		}*/
+		}
 	}
 	
 	
@@ -214,6 +212,37 @@ public class DodgeBlock extends Game implements InputProcessor {
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
 		return false;
-	}
 	
+}
+
+
+	@Override
+	public void resize(int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
 }
