@@ -21,7 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class MainMenu implements Screen{
 	
 	private SpriteBatch batch;
-	private TextButton startBtn;
+	private TextButton hostBtn;
 	private Stage stage;
 	private BitmapFont font;
 	private Game myGame;
@@ -34,9 +34,10 @@ public class MainMenu implements Screen{
 		batch = new SpriteBatch();
 		
 		font = new BitmapFont();
+		font.setColor(Color.CYAN);
 		font.getData().scale(2f);
 		
-		Window.WindowStyle errorStyle = new Window.WindowStyle(font, Color.WHITE, null);
+		Window.WindowStyle errorStyle = new Window.WindowStyle(font, Color.BLACK, null);
 		errorBox = new Dialog("You Dun Goofed", errorStyle);
 	
 		timeSinceBox = 0f;
@@ -61,7 +62,7 @@ public class MainMenu implements Screen{
 		userName = new TextField("", new TextField.TextFieldStyle(
 				font, Color.BLACK, null, null, null));
 		userName.setMessageText("Username");
-		userName.setPosition(1920f/2, 40f);
+		userName.setPosition((1920f/2)-150f, 40f);
 		userName.setSize(300f, 40f);
 		stage.addActor(userName);
 		
@@ -70,10 +71,12 @@ public class MainMenu implements Screen{
 				
 				style.font = font;
 				
-				startBtn = new TextButton("Start!", style);
-				startBtn.setPosition(1920f/2, 500f);
-				startBtn.setSize(200f, 40f);
-				startBtn.addListener(new ClickListener(){
+				hostBtn = new TextButton("Host", style);
+				hostBtn.setPosition(
+						(Gdx.graphics.getWidth() / 4) - 100f,
+						Gdx.graphics.getHeight() /2);
+				hostBtn.setSize(200f, 40f);
+				hostBtn.addListener(new ClickListener(){
 		            @Override
 		            public void clicked(InputEvent event, float x, float y) {
 		            	 if(userName.getText().isEmpty()){
@@ -87,7 +90,7 @@ public class MainMenu implements Screen{
 		            }
 		        });
 				
-				stage.addActor(startBtn);
+				stage.addActor(hostBtn);
 				
 	}
 
@@ -95,7 +98,7 @@ public class MainMenu implements Screen{
 	public void render(float delta) {
 		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 
 
 		stage.act();
