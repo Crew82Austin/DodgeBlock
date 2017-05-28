@@ -43,11 +43,13 @@ public class GameScreen implements Screen, InputProcessor{
 			runner = new GameRunner(true, localPlayer1, localPlayer2);
 		}
 		font = new BitmapFont();
+		font.getData().scale(5f);
 		rend = new ShapeRenderer(200);
 		System.out.println("State is "+runner.getState());
 		Gdx.input.setInputProcessor(this);
 		players = new ArrayList<Player>();
 		runner.setState(GameRunner.State.RUNNING);
+		
 		
 		
 	}

@@ -29,6 +29,7 @@ public class MainMenu implements Screen{
 	private Dialog errorBox;
 	private float timeSinceBox; //Time Since the Error Dialogue has appeared
 	private float errorTime; //How long the Error Dialogue should be visible
+	private boolean displayingError;
 	
 	public MainMenu(Game game){
 		batch = new SpriteBatch();
@@ -39,9 +40,9 @@ public class MainMenu implements Screen{
 		
 		Window.WindowStyle errorStyle = new Window.WindowStyle(font, Color.BLACK, null);
 		errorBox = new Dialog("You Dun Goofed", errorStyle);
-	
 		timeSinceBox = 0f;
-		errorTime = 2000f;
+		errorTime = 2f;
+		displayingError = false;
 		
 		myGame = game;
 	
@@ -83,6 +84,7 @@ public class MainMenu implements Screen{
 		            		
 		            		 userName.setMessageText("Enter Name Here");
 		            		 errorBox.show(stage);
+		            		 displayingError = true;
 		            	 }
 		            	 else{
 		            		 myGame.setScreen(new GameScreen());
@@ -102,7 +104,7 @@ public class MainMenu implements Screen{
 
 
 		stage.act();
-
+		
 		batch.begin();
 		stage.draw();
 		batch.end();
@@ -112,14 +114,17 @@ public class MainMenu implements Screen{
 		}
 		
 		//Handling of Error Dialogue
-		if(errorBox.isVisible()){
-			errorTime += delta;
-			if(delta > errorTime){
+		if(displayingError){
+			timeSinceBox += delta;
+			System.out.println(timeSinceBox);
+			if(timeSinceBox > errorTime){
+				System.out.println("Hiding Error");
 				errorBox.hide();
+				displayingError = false;
 			}
 		}
 		else{
-			errorTime = 0f;
+			timeSinceBox = 0f;
 		}
 
 	}
