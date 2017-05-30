@@ -56,6 +56,7 @@ public class MainMenu implements Screen{
 				Gdx.graphics.getHeight() - 400f);
 		
 		myGame = game;
+		
 	
 	}
 	@Override
@@ -123,7 +124,7 @@ public class MainMenu implements Screen{
 	            	displayingError = true;
 	            }
 	            else{
-	            	myGame.setScreen(new GameScreen());
+	            	myGame.setScreen(new JoinScreen(myGame));
 	            }
 	          }
 		});
@@ -134,19 +135,13 @@ public class MainMenu implements Screen{
 		optionsBtn = new TextButton("Options", style);
 		optionsBtn.setPosition(
 				(Gdx.graphics.getWidth() / 2) - 100f,
-				(0f));
+				(5f));
 		optionsBtn.setSize(200f, 40f);
 		optionsBtn.addListener(new ClickListener(){
 			@Override
 	          public void clicked(InputEvent event, float x, float y) {
-	            if(userName.getText().isEmpty()){
-	            		
-	            	userName.setMessageText("   You Clicked Options");//Spacing for Centering
-	            }
-	            else{
-	            	myGame.setScreen(new GameScreen());
-	            }
-	          }
+	           myGame.setScreen(new OptionsScreen(myGame));
+			}
 		});
 		
 		stage.addActor(optionsBtn);
