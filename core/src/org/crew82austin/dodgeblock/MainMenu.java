@@ -36,6 +36,8 @@ public class MainMenu implements Screen{
 	private float timeSinceBox; //Time Since the Error Dialogue has appeared
 	private float errorTime; //How long the Error Dialogue should be visible
 	private boolean displayingError;//Is that box being displayed?
+	private MainMenu self;
+	private String user;
 	
 	public MainMenu(Game game){
 		batch = new SpriteBatch();
@@ -54,8 +56,10 @@ public class MainMenu implements Screen{
 		logo = new Image(logoTexture);
 		logo.setPosition((Gdx.graphics.getWidth() / 2f) - 250f, 
 				Gdx.graphics.getHeight() - 400f);
+		user = "";
 		
 		myGame = game;
+		
 		
 	
 	}
@@ -78,7 +82,10 @@ public class MainMenu implements Screen{
 		userName.setPosition(
 				(Gdx.graphics.getWidth()/2) - 250f,
 				(Gdx.graphics.getHeight() - 500f));
-		userName.setSize(500f, 100f);
+		userName.setSize(400f, 100f);
+		if(!user.isEmpty()){
+			userName.setText(user);
+		}
 		stage.addActor(userName);
 		
 		//Add Host Button
@@ -101,6 +108,7 @@ public class MainMenu implements Screen{
 		            	displayingError = true;
 		            }
 		            else{
+		            	user = userName.getText();
 		            	myGame.setScreen(new GameScreen());
 		            }
 		          }
@@ -124,7 +132,8 @@ public class MainMenu implements Screen{
 	            	displayingError = true;
 	            }
 	            else{
-	            	myGame.setScreen(new JoinScreen(myGame));
+	            	user = userName.getText();
+	            	myGame.setScreen(new JoinScreen(myGame, self));
 	            }
 	          }
 		});
@@ -182,6 +191,8 @@ public class MainMenu implements Screen{
 		else{
 			timeSinceBox = 0f;
 		}
+		
+		self = this;
 
 	}
 
@@ -213,6 +224,15 @@ public class MainMenu implements Screen{
 	public void dispose() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public String getUser(){
+		if(user.isEmpty()){
+			return "N/A";
+		}
+		else{
+			return user;
+		}
 	}
 
 }
