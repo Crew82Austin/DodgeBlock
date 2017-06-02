@@ -109,7 +109,7 @@ public class MainMenu implements Screen{
 		            }
 		            else{
 		            	user = userName.getText();
-		            	myGame.setScreen(new GameScreen());
+		            	myGame.setScreen(new HostScreen(myGame, self));
 		            }
 		          }
 		      });
@@ -149,7 +149,7 @@ public class MainMenu implements Screen{
 		optionsBtn.addListener(new ClickListener(){
 			@Override
 	          public void clicked(InputEvent event, float x, float y) {
-	           myGame.setScreen(new OptionsScreen(myGame));
+	           myGame.setScreen(new OptionsScreen(myGame, self));
 			}
 		});
 		
