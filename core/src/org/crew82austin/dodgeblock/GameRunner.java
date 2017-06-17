@@ -20,8 +20,6 @@ public class GameRunner {
 	private Player winner;
 	
 	public GameRunner(boolean hosting, Player localPlayer){
-		starter = new Startup();
-		starter.displayStart();
 		
 		status = State.PAUSED;
 		players = new ArrayList<Player>();
@@ -36,8 +34,6 @@ public class GameRunner {
 	}
 	
 	public GameRunner(boolean hosting, Player localPlayer1, Player localPlayer2){
-		starter = new Startup();
-		starter.displayStart();
 		
 		status = State.PAUSED;
 		players = new ArrayList<Player>();
