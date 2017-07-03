@@ -64,25 +64,32 @@ public class GameScreen implements Screen, InputProcessor{
 		
 		runner.update(deltaT);
 		players = runner.getCurrentPlayers();
-		batch.begin();
-		for(int c = 0; c < players.size(); c++){
-			float px = players.get(c).getX() + players.get(c).getSize() + 2;
-			float py = players.get(c).getY() + players.get(c).getSize() + 2;
-			font.draw(batch, players.get(c).getName(), px, py);
-		}
-		if(runner.getWinner() != null && runner.getState() == GameRunner.State.FINISHED){
-			font.draw(batch, "The winner is "+runner.getWinner().getName(), 
-					5, Gdx.graphics.getHeight() - 20);
-		}
-		batch.end();
+		
 		
 		rend.setAutoShapeType(false);
 		rend.begin(ShapeType.Filled);
 		for(int b = 0; b < players.size(); b++){
 			players.get(b).draw(rend);
 		}
+		
 		rend.end();
 		
+		//////////////////////////////////////////////////////
+		batch.begin();
+		
+		for(int c = 0; c < players.size(); c++){
+		float px = players.get(c).getX() + players.get(c).getSize() + 2;
+		float py = players.get(c).getY() + players.get(c).getSize() + 2;
+		font.draw(batch, players.get(c).getName(), px, py);
+		}
+		if(runner.getWinner() != null && runner.getState() == GameRunner.State.FINISHED){
+		font.draw(batch, "The winner is "+runner.getWinner().getName(), 
+		5, Gdx.graphics.getHeight() - 20);
+		}
+		font.draw(batch, ""+runner.getTimeDisplay(), Gdx.graphics.getWidth() * 0.49f, Gdx.graphics.getHeight() * 0.97f);
+		batch.end();
+		//////////////////////////////////////////////////////////////////////////////////
+
 		runner.updateLocal(localPlayer1);
 		if(TOWP)
 			runner.updateLocal(localPlayer2);
