@@ -18,6 +18,9 @@ public class GameRunner {
 	private Random randomizer;
 	private Startup starter;
 	private Player winner;
+	private final int GAME_TIME = 120000;
+	private int timeRemaining;
+	private long lastUpdateTime;
 	
 	public GameRunner(boolean hosting, Player localPlayer){
 		
@@ -29,7 +32,7 @@ public class GameRunner {
 		randomizer = new Random(System.currentTimeMillis());
 		winner = null;
 		if(hosting){
-			setPlayers();
+			newGame();
 		}
 	}
 	
@@ -44,8 +47,9 @@ public class GameRunner {
 		isHosting = hosting;
 		randomizer = new Random(System.currentTimeMillis());
 		if(hosting){
-			setPlayers();
+			newGame();
 		}
+		
 	}
 	
 	
@@ -56,7 +60,8 @@ public class GameRunner {
 				players.get(a).zeroAll();
 			}
 			setPlayers();
-			
+			timeRemaining = GAME_TIME;
+			lastUpdateTime = System.currentTimeMillis();
 			status = State.RUNNING;
 		}
 	}
@@ -114,11 +119,29 @@ public class GameRunner {
 			for(int a = 0; a < players.size(); a++){
 				players.get(a).update(time);
 			}
+			timeRemaining -= System.currentTimeMillis() - lastUpdateTime;
+			lastUpdateTime = System.currentTimeMillis();
 		}
-		
 		
 	}
 	
+	public int getTimeRemaining(){
+		return timeRemaining;
+	}
+	
+	public String getTimeDisplay(){
+		int minuets = 0;
+		int seconds = 0;
+		minuets = (timeRemaining / 1000) / 60;
+		seconds = (timeRemaining / 1000) - (minuets * 60);
+		
+		if(seconds < 10){
+			return minuets+":0"+seconds;
+		}
+		else{
+			return minuets+":"+seconds;
+		}
+	}
 	public Player getWinner(){
 		return winner;
 	}
@@ -143,6 +166,9 @@ public class GameRunner {
 		
 		if(dX < dSize && dY < dSize){
 			return player0;
+		}
+		else if(timeRemaining <= 0){
+			return player1;
 		}
 		else{
 			return null;
