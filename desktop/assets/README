@@ -1,0 +1,14 @@
+The following files were copied (without permission) from the LibGDX
+project from the "extensions/gdx-tools/assets" folder:
+
+	default.fnt
+	default.png
+	uiskin.atlas
+	uiskin.json
+	uiskin.png
+
+They are used in the LibGDX examples for how to use Skins, Buttons,
+TextFields, etc.  At some point, we will want to replace them with versions
+of our own bitmapped fonts and ninepatches, which we will need to "pack"
+into an ATLAS file using the TexturePacker class provided with LibGDX.
+
